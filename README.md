@@ -5,3 +5,4 @@ This repo will contain various WLST scripts to support the creation and maintena
 Scripts
 =======
 - osb_domain.py: Will create an OSB domain with an AdminServer, osb_server1 and the sbconsole and em apps.
+- osb_deploy.py: Deploys an OSB Project jar to OSB
