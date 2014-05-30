@@ -4,8 +4,11 @@ This repo will contain various WLST scripts that will demonstrate various capabi
 
 Scripts
 =======
+** OSB **
 - osb_domain.py: Will create an OSB domain with an AdminServer, osb_server1 and the sbconsole and em apps.
 - osb_deploy.py: Deploys an OSB Project jar to OSB
+- osb_build.sh: Creates an OSB domain, starts the NodeManager and starts the Admin Servers
+- osb.properties: Properties to drive the osb_domain and osb_build scripts
 
 Support Files
 =============

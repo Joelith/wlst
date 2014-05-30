@@ -1,35 +1,39 @@
 #!/usr/bin/env /oracle/product/middleware/Oracle_OSB1/common/bin/wlst.sh
+from java.util import Properties
+from java.io import FileInputStream
 
 # ===============
 #  Variable Defs
 # ===============
 
-ADMIN_SERVER 				        = 'AdminServer'
-ADMIN_SERVER_PORT		        = 7001
-DATABASE 					          = 'localhost:1521:XE'
-DOMAIN 						          = 'osb_domain'
-DOMAIN_HOME 				        = '/oracle/config/domains/' + DOMAIN
-LISTEN_ADDRESS 				      = 'localhost'
-MACHINE 					          = 'machine1'
-MANAGED_SERVER 				      = 'osb_server1'
-MANAGED_SERVER_PORT			    = 7003
-MDS_USER 					          = 'DEV_MDS'
-MDS_PASSWORD 				        = 'welcome1'
-MW_HOME						          = '/oracle/product/middleware'
-NODE_MANAGER 				        = 'nodemgr'
-NODE_MANAGER_LISTEN_ADDRESS = 'localhost'
-NODE_MANAGER_PASSWORD		    = 'welcome2'
-NODE_MANAGER_PORT 			    = 5556
-OSB_HOME					          = '/oracle/product/middleware/Oracle_OSB1'
-SOAINFRA_USER 				      = 'DEV_SOAINFRA'
-SOAINFRA_PASSWORD 			    = 'welcome1'
-WEBLOGIC_PASSWORD			      = 'welcome1'
-WL_HOME						          = '/oracle/product/middleware/wlserver_10.3'
+prop = Properties()
+prop.load(FileInputStream('osb.properties'))
+
+ADMIN_SERVER 				= prop.getProperty('ADMIN_SERVER')
+ADMIN_SERVER_PORT		 	= int(prop.getProperty('ADMIN_SERVER_PORT'))
+DATABASE 					= prop.getProperty('DATABASE')
+DOMAIN 						= prop.getProperty('DOMAIN')
+DOMAIN_HOME 				= prop.getProperty('DOMAIN_HOME')
+LISTEN_ADDRESS 				= prop.getProperty('LISTEN_ADDRESS')
+MACHINE 					= prop.getProperty('MACHINE')
+MANAGED_SERVER 				= prop.getProperty('MANAGED_SERVER')
+MANAGED_SERVER_PORT			= int(prop.getProperty('MANAGED_SERVER_PORT'))
+MDS_USER 					= prop.getProperty('MDS_USER')
+MDS_PASSWORD 				= prop.getProperty('MDS_PASSWORD')
+MW_HOME						= prop.getProperty('MW_HOME')
+NODE_MANAGER 				= prop.getProperty('NODE_MANAGER')
+NODE_MANAGER_LISTEN_ADDRESS = prop.getProperty('NODE_MANAGER_LISTEN_ADDRESS')
+NODE_MANAGER_PASSWORD		= prop.getProperty('NODE_MANAGER_PASSWORD')
+NODE_MANAGER_PORT 			= int(prop.getProperty('NODE_MANAGER_PORT'))
+OSB_HOME					= prop.getProperty('OSB_HOME')
+SOAINFRA_USER 				= prop.getProperty('SOAINFRA_USER')
+SOAINFRA_PASSWORD 			= prop.getProperty('SOAINFRA_PASSWORD')
+WEBLOGIC_PASSWORD			= prop.getProperty('WEBLOGIC_PASSWORD')
+WL_HOME						= prop.getProperty('WL_HOME')
 
 ###############################################################################
 # Create the domain
 ###############################################################################
-print('Creating the domain')
 
 readTemplate(WL_HOME + '/common/templates/domains/wls.jar')
 cd('/Security/base_domain/User/weblogic')

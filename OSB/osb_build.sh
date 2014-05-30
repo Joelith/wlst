@@ -1,7 +1,12 @@
-WL_HOME='/oracle/product/middleware/wlserver_10.3'
-DOMAIN='osb_domain'
-DOMAIN_PATH='/oracle/config/domains/osb_domain'
+source osb.properties
 # Check if domain is built
+if [ -e ${DOMAIN_HOME} ]
+then
+	echo "Domain exists"
+else
+	echo "$DOMAIN_HOME does not exist. Rebuilding domain"
+	$WL_HOME/common/bin/wlst.sh build_domain.py
+fi
 
 # Start Node Manager
 echo "Checking if node manager is running"
@@ -13,7 +18,7 @@ then
 else
 	echo "NodeManager not running. Start NodeManager"
 	$WL_HOME/common/bin/wlst.sh <<-EOF
-startNodeManager(NodeManagerHome='/oracle/product/middleware/wlserver_10.3/common/nodemanager')
+startNodeManager(NodeManagerHome='$WL_HOME/common/nodemanager')
 EOF
 	nodePid=`/bin/ps -eo pid,cmd | /bin/grep weblogic.NodeManager | /bin/grep -v grep | awk '{print $1}'`
 	if [ ${nodePid} ]
@@ -27,7 +32,7 @@ fi
 
 # Start WebLogic
 echo "Checking if Admin Server is running for ${DOMAIN}"
-pid=`/bin/ps -eo pid,cmd | /bin/grep -i weblogic.AdminServer | /bin/grep -v grep | awk '{print $1}'`
+pid=`/bin/ps -eo pid,cmd | /bin/grep -i weblogic.Name=$ADMIN_SERVER | /bin/grep -v grep | awk '{print $1}'`
 
 if [ ${pid} ]
 then
@@ -35,9 +40,9 @@ then
 else 
 	echo "Admin server not running. Starting Admin Server"
 	$WL_HOME/common/bin/wlst.sh <<-EOF
-nmConnect('weblogic', 'welcome1', 'localhost', 5556, '$DOMAIN', '$DOMAIN_PATH', 'plain')
-nmStart('AdminServer')
-nmServerStatus('AdminServer')
+nmConnect('$WEBLOGIC_USER', '$WEBLOGIC_PASSWORD', '$LISTEN_ADDRESS', '$NODE_MANAGER_PORT', '$DOMAIN', '$DOMAIN_HOME', 'plain')
+nmStart('$ADMIN_SERVER')
+nmServerStatus('$ADMIN_SERVER')
 nmDisconnect()
 EOF
 fi
