@@ -5,7 +5,7 @@ then
 	echo "Domain exists"
 else
 	echo "$DOMAIN_HOME does not exist. Rebuilding domain"
-	$WL_HOME/common/bin/wlst.sh build_domain.py
+	$WL_HOME/common/bin/wlst.sh osb_build.py
 fi
 
 # Start Node Manager
